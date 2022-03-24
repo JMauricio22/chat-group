@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  BeforeInsert,
+} from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { Message } from '../../channels/entities/message.entity';
 import { UserChannel } from '../../channels/entities/user_channel.entity';
 
@@ -48,4 +55,9 @@ export class User {
 
   @OneToMany(() => UserChannel, (userChannel) => userChannel.user)
   channels: UserChannel[];
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 }

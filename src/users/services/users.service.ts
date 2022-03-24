@@ -1,16 +1,29 @@
-import { Inject } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
-import Configuration from '../../config/configuration';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from '../entities/user.entity';
+import { CreateUser } from '../dtos/user.dtos';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject(Configuration.KEY)
-    private configService: ConfigType<typeof Configuration>,
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
-  create() {
-    return this.configService.postgres.dbName;
+  async findByEmail(email: string): Promise<User | undefined> {
+    const user = await this.userRepository.findOne({
+      where: {
+        email,
+      },
+    });
+
+    return user;
+  }
+
+  async create(body: CreateUser): Promise<User> {
+    const newUser = await this.userRepository.save(
+      this.userRepository.create(body),
+    );
+    return newUser;
   }
 }
