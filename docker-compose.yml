@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+  postgresql:
+    container_name: postgresql
+    image: postgres:13
+    environment:
+      POSTGRES_DB: chat
+      POSTGRES_USER: mau
+      POSTGRES_PASSWORD: 123
+    ports: 
+      - 5432:5432
+    volumes: 
+      - ./db:/var/lib/postgresql/data
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: mau@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 123
+    ports:
+      - 5050:80
