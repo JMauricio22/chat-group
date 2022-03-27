@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { User } from '@users/entities/user.entity';
 import { Channel } from '@channels/entities/channel.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Message {
@@ -44,6 +45,7 @@ export class Message {
   })
   createdAt!: string;
 
+  @Exclude()
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',

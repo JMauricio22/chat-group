@@ -8,6 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Exclude } from 'class-transformer';
 import { Message } from '@channels/entities/message.entity';
 import { Channel } from '@channels/entities/channel.entity';
 
@@ -23,6 +24,7 @@ export class User {
   })
   email!: string;
 
+  @Exclude()
   @Column({
     type: 'character varying',
     nullable: false,
@@ -41,6 +43,7 @@ export class User {
   })
   lastName!: string;
 
+  @Exclude()
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
@@ -48,6 +51,7 @@ export class User {
   })
   createdAt!: string;
 
+  @Exclude()
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',

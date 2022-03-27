@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import { Message } from '@channels/entities/message.entity';
 import { User } from '@users/entities/user.entity';
 
@@ -20,6 +21,7 @@ export class Channel {
   })
   description!: string;
 
+  @Exclude()
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
@@ -27,6 +29,7 @@ export class Channel {
   })
   createdAt!: string;
 
+  @Exclude()
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',

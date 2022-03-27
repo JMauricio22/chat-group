@@ -4,6 +4,7 @@ import { WsException } from '@nestjs/websockets';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Socket } from 'socket.io';
 import { Repository } from 'typeorm';
+import { plainToClass } from 'class-transformer';
 import { User } from '@users/entities/user.entity';
 import { Channel } from '@channels/entities/channel.entity';
 import { Message } from '@channels/entities/message.entity';
@@ -29,7 +30,8 @@ export class ChatService {
       if (!user) {
         throw new WsException('Invalid token');
       }
-      return user;
+      const newUser = plainToClass(User, user);
+      return newUser;
     } catch (error) {
       throw new WsException(error.message);
     }
@@ -52,8 +54,8 @@ export class ChatService {
           text: content,
         }),
       );
-
-      return message;
+      const newMessage = plainToClass(Message, message);
+      return newMessage;
     } catch (error) {
       throw new WsException(error.message);
     }
@@ -69,13 +71,15 @@ export class ChatService {
       where: {
         channel: channel,
       },
+      relations: ['user'],
       take: MESSAGE_LIMIT,
       order: {
         createdAt: 'DESC',
       },
     });
     channel.messages = messages;
-    return channel;
+    const newChannel = plainToClass(Channel, channel);
+    return newChannel;
   }
 
   async removeUserFromChannel(user: User): Promise<void> {
