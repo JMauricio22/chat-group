@@ -7,9 +7,9 @@ import {
   WsResponse,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
-import { Channel } from '../entities/channel.entity';
 import { Socket, Server } from 'socket.io';
-import { ChatService } from '../services/chat.service';
+import { Channel } from '@channels/entities/channel.entity';
+import { ChatService } from '@channels/services/chat.service';
 
 @WebSocketGateway({
   cors: {

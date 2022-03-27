@@ -7,12 +7,12 @@ import {
   Body,
   UseFilters,
 } from '@nestjs/common';
-import { LocalAuthGuard } from '../guards/local.auth.guard';
-import { JwtAuthGuard } from '../guards/jwt.auth.guard';
-import { AuthService } from '../services/auth.service';
-import { UsersService } from '../../users/services/users.service';
-import { RegisterUser } from '../dtos/user.dtos';
-import { QueryException } from '../../common/filters/QueryException';
+import { LocalAuthGuard } from '@auth/guards/local.auth.guard';
+import { JwtAuthGuard } from '@auth/guards/jwt.auth.guard';
+import { AuthService } from '@auth/services/auth.service';
+import { UsersService } from '@users/services/users.service';
+import { RegisterUser } from '@auth/dtos/user.dtos';
+import { QueryException } from '@common/filters/QueryException';
 
 @Controller('auth')
 export class AuthController {

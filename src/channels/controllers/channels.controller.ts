@@ -6,10 +6,10 @@ import {
   Body,
   UseFilters,
 } from '@nestjs/common';
-import { CreateChannel } from '../dtos/channel.dtos';
-import { ChannelService } from '../services/channels.service';
-import { JwtAuthGuard } from '../../auth/guards/jwt.auth.guard';
-import { QueryException } from '../../common/filters/QueryException';
+import { CreateChannel } from '@channels/dtos/channel.dtos';
+import { ChannelService } from '@channels/services/channels.service';
+import { JwtAuthGuard } from '@auth/guards/jwt.auth.guard';
+import { QueryException } from '@common/filters/QueryException';
 
 @Controller('channels')
 export class ChannelsController {

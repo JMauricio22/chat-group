@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateChannel } from '../dtos/channel.dtos';
-import { Channel } from '../entities/channel.entity';
+import { CreateChannel } from '@channels/dtos/channel.dtos';
+import { Channel } from '@channels/entities/channel.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()

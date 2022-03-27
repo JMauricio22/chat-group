@@ -8,8 +8,8 @@ import {
   JoinColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Message } from '../../channels/entities/message.entity';
-import { Channel } from '../../channels/entities/channel.entity';
+import { Message } from '@channels/entities/message.entity';
+import { Channel } from '@channels/entities/channel.entity';
 
 @Entity()
 export class User {

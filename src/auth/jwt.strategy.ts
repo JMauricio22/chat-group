@@ -1,6 +1,6 @@
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { jwtConstants } from './constants';
+import { jwtConstants } from '@auth/constants';
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {

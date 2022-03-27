@@ -4,11 +4,11 @@ import { WsException } from '@nestjs/websockets';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Socket } from 'socket.io';
 import { Repository } from 'typeorm';
-import { User } from 'src/users/entities/user.entity';
-import { Channel } from '../entities/channel.entity';
-import { Message } from '../entities/message.entity';
-import { UsersService } from 'src/users/services/users.service';
-import { ChannelService } from '../services/channels.service';
+import { User } from '@users/entities/user.entity';
+import { Channel } from '@channels/entities/channel.entity';
+import { Message } from '@channels/entities/message.entity';
+import { UsersService } from '@users/services/users.service';
+import { ChannelService } from '@channels/services/channels.service';
 
 const MESSAGE_LIMIT = 1;
 
