@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Message } from './message.entity';
-import { UserChannel } from './user_channel.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class Channel {
@@ -10,6 +10,7 @@ export class Channel {
   @Column({
     type: 'character varying',
     nullable: false,
+    unique: true,
   })
   name!: string;
 
@@ -22,18 +23,20 @@ export class Channel {
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
+    name: 'created_at',
   })
   createdAt!: string;
 
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
+    name: 'updated_at',
   })
   updatedAt!: string;
 
   @OneToMany(() => Message, (message) => message.channel)
   messages: Message[];
 
-  @OneToMany(() => UserChannel, (userChannel) => userChannel.channel)
-  users: UserChannel[];
+  @OneToMany(() => User, (user) => user.channel)
+  users: User[];
 }

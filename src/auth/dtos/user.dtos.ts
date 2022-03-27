@@ -1,6 +1,6 @@
 import { IsString, Length, IsEmail } from 'class-validator';
 
-export class CreateUser {
+export class RegisterUser {
   @IsEmail()
   email: string;
 

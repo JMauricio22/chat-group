@@ -19,13 +19,19 @@ export class Message {
   })
   text!: string;
 
-  @ManyToOne(() => User, (user) => user.messages)
+  @ManyToOne(() => User, (user) => user.messages, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({
     name: 'user_id',
   })
   user: User;
 
-  @ManyToOne(() => Channel, (channel) => channel.messages)
+  @ManyToOne(() => Channel, (channel) => channel.messages, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({
     name: 'channel_id',
   })
@@ -34,12 +40,14 @@ export class Message {
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
+    name: 'created_at',
   })
   createdAt!: string;
 
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
+    name: 'updated_at',
   })
   updatedAt!: string;
 }

@@ -4,10 +4,12 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   BeforeInsert,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Message } from '../../channels/entities/message.entity';
-import { UserChannel } from '../../channels/entities/user_channel.entity';
+import { Channel } from '../../channels/entities/channel.entity';
 
 @Entity()
 export class User {
@@ -17,6 +19,7 @@ export class User {
   @Column({
     type: 'character varying',
     nullable: false,
+    unique: true,
   })
   email!: string;
 
@@ -41,20 +44,28 @@ export class User {
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
+    name: 'created_at',
   })
   createdAt!: string;
 
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
+    name: 'updated_at',
   })
   updatedAt!: string;
 
   @OneToMany(() => Message, (message) => message.user)
   messages: Message[];
 
-  @OneToMany(() => UserChannel, (userChannel) => userChannel.user)
-  channels: UserChannel[];
+  @ManyToOne(() => Channel, (channel) => channel.users, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({
+    name: 'channel_id',
+  })
+  channel: Channel;
 
   @BeforeInsert()
   async hashPassword() {
