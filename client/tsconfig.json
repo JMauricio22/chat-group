@@ -22,7 +22,8 @@
       "@models/*": ["models/*"],
       "@redux/*": ["redux/*"],
       "@hooks/*": ["hooks/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@interceptors/*": ["interceptors/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

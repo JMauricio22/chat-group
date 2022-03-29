@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import store from '@redux/store';
 import PrivateRoute from '@components/PrivateRoute';
 import '@styles/globals.css';
+import '@interceptors/axios.interceptor';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

@@ -7,6 +7,10 @@ module.exports = {
       },
       spacing: {
         110: '27.5rem',
+        170: '42.5rem',
+      },
+      borderWidth: {
+        1: '1px',
       },
     },
   },

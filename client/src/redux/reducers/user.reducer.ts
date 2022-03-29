@@ -1,15 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {} from 'react-redux';
 import { User } from '@models/user.model';
 
-const initialState: User = {} as User;
+type UserState = { profile: User | null };
+
+const initialState: UserState = { profile: null };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    addUser: (state: UserState, action: PayloadAction<User>) => ({
+      profile: action.payload,
+    }),
+    setUserInNull: (state: UserState) => ({ profile: null }),
+  },
 });
 
-export const {} = userSlice.actions;
+export const { addUser, setUserInNull } = userSlice.actions;
 
 export default userSlice.reducer;

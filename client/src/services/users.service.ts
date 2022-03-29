@@ -11,3 +11,8 @@ export const sigin = async (body: SignInBody) => {
   const response: AxiosResponse = await fetch.post('/auth/login', body);
   return response.data.access_token;
 };
+
+export const getProfile = async () => {
+  const response: AxiosResponse = await fetch.get('/auth/profile');
+  return response.data;
+};
