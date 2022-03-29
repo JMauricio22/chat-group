@@ -9,8 +9,11 @@ export class RegisterUser {
   password: string;
 
   @IsString()
-  firstName: string;
+  name: string;
 
   @IsString()
-  lastName: string;
+  bio: string;
+
+  @IsString()
+  phone: string;
 }

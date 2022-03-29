@@ -9,8 +9,8 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
-import { Message } from '@channels/entities/message.entity';
-import { Channel } from '@channels/entities/channel.entity';
+import { Message } from '../../channels/entities/message.entity';
+import { Channel } from '../../channels/entities/channel.entity';
 
 @Entity()
 export class User {
@@ -35,13 +35,19 @@ export class User {
     type: 'character varying',
     nullable: false,
   })
-  firstName!: string;
+  name!: string;
 
   @Column({
     type: 'character varying',
     nullable: false,
   })
-  lastName!: string;
+  phone!: string;
+
+  @Column({
+    type: 'character varying',
+    nullable: false,
+  })
+  bio!: string;
 
   @Exclude()
   @Column({

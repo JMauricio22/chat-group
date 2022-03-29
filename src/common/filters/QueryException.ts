@@ -6,9 +6,8 @@ import {
 } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
 import { Response } from 'express';
-import { DatabaseError } from 'pg-protocol';
 
-@Catch()
+@Catch(QueryFailedError)
 export class QueryException implements ExceptionFilter {
   catch(exception: QueryFailedError, context: ArgumentsHost) {
     const ctx = context.switchToHttp();
@@ -16,7 +15,7 @@ export class QueryException implements ExceptionFilter {
 
     response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-      message: (exception.driverError as DatabaseError).detail,
+      message: exception,
     });
   }
 }

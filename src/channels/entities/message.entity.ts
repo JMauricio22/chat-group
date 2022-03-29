@@ -5,9 +5,9 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { User } from '@users/entities/user.entity';
-import { Channel } from '@channels/entities/channel.entity';
 import { Exclude } from 'class-transformer';
+import { User } from '../../users/entities/user.entity';
+import { Channel } from './channel.entity';
 
 @Entity()
 export class Message {
