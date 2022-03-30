@@ -36,7 +36,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.replace('/profile');
+      router.replace('/chat');
     }
   }, [isLoggedIn]);
 
