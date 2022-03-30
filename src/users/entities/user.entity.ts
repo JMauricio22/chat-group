@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import { Message } from '../../channels/entities/message.entity';
 import { Channel } from '../../channels/entities/channel.entity';
 

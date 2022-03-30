@@ -3,22 +3,41 @@ import { getUserProfile } from '@redux/thunks/getUserProfile.thunk';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import { useAppSelector } from '@hooks/useAppSelector';
 import Loading from '@components/Loading';
+import { useRouter } from 'next/router';
 
 const profile = () => {
-  // const profile = useAppSelector((state) => state.user.profile);
-  // const dispatch = useAppDispatch();
+  const profile = useAppSelector((state) => state.user.profile);
+  const loading = useAppSelector((state) => state.user.loading);
+  const isLoggedIn = useAppSelector((state) => state.authentication.isLoggedIn);
+  // const error = useAppSelector((state) => state.user.error);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   dispatch(getUserProfile);
-  // }, []);
+  const fetchUserProfile = () => {
+    dispatch(getUserProfile);
+  };
 
-  // if (!profile) {
-  //   return (
-  //     <div className="mt-4 w-full flex justify-center">
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
+  const goToLoginPage = () => {
+    if (!isLoggedIn) {
+      router.replace('/');
+    }
+  };
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
+  useEffect(() => {
+    goToLoginPage();
+  }, [isLoggedIn]);
+
+  if (loading) {
+    return (
+      <div className="mt-4 w-full flex justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <section className="min-h-screen w-full text-white px-8">
@@ -57,32 +76,30 @@ const profile = () => {
               <div className="text-gray-300 uppercase text-sm md:w-52">
                 Name
               </div>
-              <div className="text-lg font-bold">Xanthe Neal</div>
+              <div className="text-lg font-bold">{profile?.name}</div>
             </div>
             <div className="flex justify-between mb-2 py-10 border-b-1 border-gray-200 md:px-8 md:justify-start items-center">
               <div className="text-gray-300 uppercase text-sm md:w-52">Bio</div>
-              <div className="text-lg font-bold">
-                I am software developer...
-              </div>
+              <div className="text-lg font-bold">{profile?.bio}</div>
             </div>
             <div className="flex justify-between mb-2 py-10 border-b-1 border-gray-200 md:px-8 md:justify-start items-center">
               <div className="text-gray-300 uppercase text-sm md:w-52">
                 Phone
               </div>
-              <div className="text-lg font-bold">90212121312</div>
+              <div className="text-lg font-bold">{profile?.phone}</div>
             </div>
-            <div className="flex justify-between mb-2 py-10 border-b-1 border-gray-200 md:px-8 md:justify-start items-center">
+            <div className="flex justify-between mb-2 py-10  md:px-8 md:justify-start items-center">
               <div className="text-gray-300 uppercase text-sm md:w-52">
                 Email
               </div>
-              <div className="text-lg font-bold">Xanthe.neal@gmail.com</div>
+              <div className="text-lg font-bold">{profile?.email}</div>
             </div>
-            <div className="flex justify-between py-10 border-gray-200 md:px-8 md:justify-start items-center">
+            {/* <div className="flex justify-between py-10 border-gray-200 md:px-8 md:justify-start items-center">
               <div className="text-gray-300 uppercase text-sm md:w-52">
                 Password
               </div>
               <div className="text-lg font-bold">********</div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -90,6 +107,6 @@ const profile = () => {
   );
 };
 
-// profile.protected = true;
+profile.protected = true;
 
 export default profile;
