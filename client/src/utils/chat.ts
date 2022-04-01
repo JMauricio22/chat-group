@@ -1,7 +1,7 @@
 import { io, Socket } from 'socket.io-client';
 import Cookies from 'js-cookie';
 
-type Event = 'joinRoom' | 'newUser';
+type Event = 'joinRoom' | 'sendMessage';
 
 export class ChatConnection {
   socket: Socket;
@@ -18,6 +18,10 @@ export class ChatConnection {
 
   joinRoom(channelId: number) {
     this.socket.emit('joinRoom', { channelId });
+  }
+
+  sendMessage(channelId: number, content: string) {
+    this.socket.emit('sendMessage', { channelId, content });
   }
 
   on<T>(event: Event, callback: (data: T) => void) {

@@ -60,9 +60,12 @@ const messageSlice = createSlice({
     addNewUser: (state: ChatState, { payload }: PayloadAction<User>) => {
       state.users.push(payload);
     },
+    addNewMessage: (state: ChatState, { payload }: PayloadAction<Message>) => {
+      state.messages.push(payload);
+    },
   },
 });
 
-export const { joimRoom, addNewUser } = messageSlice.actions;
+export const { joimRoom, addNewUser, addNewMessage } = messageSlice.actions;
 
 export default messageSlice.reducer;

@@ -38,7 +38,8 @@ export class ChatGateway implements OnGatewayDisconnect {
       body.channelId,
       body.content,
     );
-    this.server.to(body.channelId).emit('sendMessage', { user, message });
+    message.user = user;
+    this.server.to(body.channelId.toString()).emit('sendMessage', message);
   }
 
   @SubscribeMessage('joinRoom')

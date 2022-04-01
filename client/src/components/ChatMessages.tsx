@@ -1,14 +1,59 @@
+import { useRef, useEffect } from 'react';
 import { useAppSelector } from '@hooks/useAppSelector';
+import { useAppDispatch } from '@hooks/useAppDispatch';
 import { Message } from '@models/message.models';
 import { MailIcon } from '@heroicons/react/solid';
+import { ChatConnection } from '@utils/chat';
+import { addNewMessage } from '@redux/reducers/chat.reducer';
 
-const ChatMessages = () => {
+type ChatMessagesProps = {
+  chatConnection: ChatConnection;
+};
+
+const ChatMessages = ({ chatConnection }: ChatMessagesProps) => {
+  const channelId = useAppSelector((state) => state.chat.id);
+  const dispatch = useAppDispatch();
   const messages = useAppSelector((state) => state.chat.messages);
+  const messageInput = useRef(null);
+  const ulElement = useRef(null);
+
+  const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (
+      messageInput.current &&
+      (messageInput.current as HTMLInputElement).value
+    ) {
+      chatConnection.sendMessage(
+        channelId,
+        (messageInput.current as HTMLInputElement).value,
+      );
+      (messageInput.current as HTMLInputElement).value = '';
+    }
+  };
+
+  useEffect(() => {
+    if (!ulElement.current) {
+      return;
+    }
+    const ul = ulElement.current as HTMLUListElement;
+    if (ul.clientHeight + ul.scrollTop >= ul.scrollHeight - 100) {
+      ul.scrollTop = ul.clientHeight + ul.scrollTop;
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    chatConnection.on<Message>('sendMessage', (data) => {
+      dispatch(addNewMessage(data));
+    });
+  }, []);
 
   return (
     <div className="max-h-screen overflow-hidden h-screen text-white px-4 relative">
       <div className="max-h-screen h-full flex flex-col relative">
-        <ul className="overflow-auto pt-16 scrollbar-thin flex-1">
+        <ul
+          className="overflow-auto pt-16 scrollbar-thin flex-1"
+          ref={ulElement}
+        >
           {messages.map((message: Message, index) => (
             <li key={`Message-Item-${index}`} className="flex mb-4">
               <img
@@ -33,10 +78,16 @@ const ChatMessages = () => {
             type="text"
             className="w-full h-12 rounded-xl bg-zinc-700 focus:ring-0 outline-none"
             placeholder="Type a message here"
+            ref={messageInput}
           />
-          <button className="w-7 h-7 bg-sky-500 absolute right-8 rounded-md top-1/2 -translate-y-1/2 mt-1 flex justify-center items-center">
-            <MailIcon className="w-5 h-5" />
-          </button>
+          <form onSubmit={sendMessage}>
+            <button
+              type="submit"
+              className="w-7 h-7 bg-sky-500 absolute right-8 rounded-md top-1/2 -translate-y-1/2 mt-1 flex justify-center items-center"
+            >
+              <MailIcon className="w-5 h-5" />
+            </button>
+          </form>
         </div>
       </div>
     </div>

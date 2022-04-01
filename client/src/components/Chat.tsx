@@ -28,7 +28,7 @@ const Chat = () => {
       />
       <div className="md:flex-1 relative">
         <ChatHeader toggleSlideMenu={toggleSlideMenu} />
-        <ChatMessages />
+        <ChatMessages chatConnection={chatConnection} />
       </div>
     </div>
   );
