@@ -19,7 +19,7 @@ const UserList = ({ setShowUserList }: UserListProps) => {
         All Channels
       </div>
       <div className="mb-6">
-        <p className="uppercase font-bold text-xl mb-2 text-gray-300">
+        <p className="uppercase font-bold text-lg mb-2 text-gray-300">
           {channelName}
         </p>
         <p className="font-thin text-md text-gray-300">{channelDescription}</p>

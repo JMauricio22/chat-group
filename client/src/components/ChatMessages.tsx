@@ -6,9 +6,9 @@ const ChatMessages = () => {
   const messages = useAppSelector((state) => state.chat.messages);
 
   return (
-    <div className="max-h-screen overflow-hidden text-white px-4 relative">
-      <div className="max-h-screen flex flex-col">
-        <ul className="overflow-auto pt-16 scrollbar-thin">
+    <div className="max-h-screen overflow-hidden h-screen text-white px-4 relative">
+      <div className="max-h-screen h-full flex flex-col relative">
+        <ul className="overflow-auto pt-16 scrollbar-thin flex-1">
           {messages.map((message: Message, index) => (
             <li key={`Message-Item-${index}`} className="flex mb-4">
               <img
@@ -27,7 +27,8 @@ const ChatMessages = () => {
             </li>
           ))}
         </ul>
-        <div className="h-auto w-full pb-4 pt-6 px-4 relative">
+        <div className="h-20"></div>
+        <div className="h-auto w-full pb-4 pt-6 px-4 absolute left-0 bottom-0">
           <input
             type="text"
             className="w-full h-12 rounded-xl bg-zinc-700 focus:ring-0 outline-none"
