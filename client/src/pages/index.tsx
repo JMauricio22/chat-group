@@ -36,7 +36,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.replace('/chat');
+      router.replace('/chat-group');
     }
   }, [isLoggedIn]);
 

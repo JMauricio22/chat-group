@@ -13,7 +13,7 @@ const ChatMessages = () => {
             <li key={`Message-Item-${index}`} className="flex mb-4">
               <img
                 className="w-8 h-8 mr-3 rounded-md"
-                src="https://ui-avatars.com/api/?name=John+Doe"
+                src={`https://ui-avatars.com/api/?name=${message.user.name}`}
               />
               <div>
                 <div className="text-zinc-400 mb-2 flex items-center">

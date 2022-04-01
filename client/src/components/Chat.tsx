@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import SlideMenu from '@components/SlideMenu';
 import ChatHeader from '@components/ChatHeader';
 import ChatMessages from '@components/ChatMessages';
-import Loading from '@components/Loading';
+import { ChatConnection } from '@utils/chat';
+
+const chatConnection = new ChatConnection();
 
 const Chat = () => {
-  const [isClientSide, setIsClientSide] = useState(false);
   const [slideIsOpen, setSlideIsOpen] = useState(false);
 
   const toggleSlideMenu = () => {
@@ -13,18 +14,18 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    if (window) {
-      setIsClientSide(true);
-    }
+    return () => {
+      chatConnection.disconnect();
+    };
   }, []);
-
-  if (!isClientSide) {
-    return <Loading />;
-  }
 
   return (
     <div className="h-screen w-full md:flex">
-      <SlideMenu isOpen={slideIsOpen} toggleSlideMenu={toggleSlideMenu} />
+      <SlideMenu
+        isOpen={slideIsOpen}
+        toggleSlideMenu={toggleSlideMenu}
+        chatConnection={chatConnection}
+      />
       <div className="md:flex-1 relative">
         <ChatHeader toggleSlideMenu={toggleSlideMenu} />
         <ChatMessages />
@@ -32,7 +33,5 @@ const Chat = () => {
     </div>
   );
 };
-
-// Chat.protected = true;
 
 export default Chat;

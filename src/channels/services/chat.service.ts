@@ -11,7 +11,7 @@ import { Message } from '@channels/entities/message.entity';
 import { UsersService } from '@users/services/users.service';
 import { ChannelService } from '@channels/services/channels.service';
 
-const MESSAGE_LIMIT = 1;
+const MESSAGE_LIMIT = 10;
 
 @Injectable()
 export class ChatService {
@@ -74,7 +74,7 @@ export class ChatService {
       relations: ['user'],
       take: MESSAGE_LIMIT,
       order: {
-        createdAt: 'DESC',
+        createdAt: 'ASC',
       },
     });
     channel.messages = messages;

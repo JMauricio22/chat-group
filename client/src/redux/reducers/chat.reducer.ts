@@ -1,17 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '@models/user.model';
 import { Message } from '@models/message.models';
+import { Channel } from '@models/channel.model';
 
 interface ChatState {
+  id: number;
   loading: boolean;
   name: string;
   description: string;
   messages: Message[];
   users: User[];
-  error: '';
+  error: string;
 }
 
 const initialState: ChatState = {
+  id: 30,
   loading: false,
   messages: [
     {
@@ -44,9 +47,22 @@ const initialState: ChatState = {
 const messageSlice = createSlice({
   name: 'chat',
   initialState,
-  reducers: {},
+  reducers: {
+    joimRoom: (state: ChatState, { payload }: PayloadAction<Channel>) => ({
+      id: payload.id,
+      loading: false,
+      name: payload.name,
+      description: payload.description,
+      messages: payload.messages,
+      users: payload.users,
+      error: '',
+    }),
+    addNewUser: (state: ChatState, { payload }: PayloadAction<User>) => {
+      state.users.push(payload);
+    },
+  },
 });
 
-export const {} = messageSlice.actions;
+export const { joimRoom, addNewUser } = messageSlice.actions;
 
 export default messageSlice.reducer;
