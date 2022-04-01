@@ -10,6 +10,7 @@ import {
 import { Socket, Server } from 'socket.io';
 import { Channel } from '@channels/entities/channel.entity';
 import { ChatService } from '@channels/services/chat.service';
+import { User } from '@users/entities/user.entity';
 
 @WebSocketGateway({
   cors: {
@@ -25,6 +26,15 @@ export class ChatGateway implements OnGatewayDisconnect {
   async handleDisconnect(socket: Socket) {
     const user = await this.chatService.getUserFromToken(socket);
     await this.chatService.removeUserFromChannel(user);
+  }
+
+  async removeRooms(socket: Socket, user: User) {
+    for (const value of socket.rooms) {
+      if (socket.id !== value) {
+        socket.broadcast.to(value).emit('userExited', user);
+        await socket.leave(value);
+      }
+    }
   }
 
   @SubscribeMessage('sendMessage')
@@ -52,6 +62,7 @@ export class ChatGateway implements OnGatewayDisconnect {
       body.channelId,
       user,
     );
+    await this.removeRooms(socket, user);
     socket.join(channel.id.toString());
     socket.broadcast.to(channel.id.toString()).emit('newUser', user);
     return {

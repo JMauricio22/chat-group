@@ -7,7 +7,7 @@ import { getChannels } from '@redux/thunks/getChannels';
 import { useIsTablet } from '@hooks/useIsTablet';
 import CreateChannelDialog from '@components/CreateChannelDialog';
 import ChannelList from '@components/ChannelList';
-import { joimRoom, addNewUser } from '@redux/reducers/chat.reducer';
+import { joimRoom, addNewUser, userExited } from '@redux/reducers/chat.reducer';
 import { Channel } from '@models/channel.model';
 import { User } from '@models/user.model';
 import { ChatConnection } from '@utils/chat';
@@ -48,6 +48,9 @@ const SlideMenu = ({
     });
     chatConnection.on<User>('newUser', (data) => {
       dispatch(addNewUser(data));
+    });
+    chatConnection.on<User>('userExited', (data) => {
+      dispatch(userExited(data));
     });
   }, []);
 

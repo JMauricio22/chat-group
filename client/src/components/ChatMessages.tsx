@@ -74,13 +74,13 @@ const ChatMessages = ({ chatConnection }: ChatMessagesProps) => {
         </ul>
         <div className="h-20"></div>
         <div className="h-auto w-full pb-4 pt-6 px-4 absolute left-0 bottom-0">
-          <input
-            type="text"
-            className="w-full h-12 rounded-xl bg-zinc-700 focus:ring-0 outline-none"
-            placeholder="Type a message here"
-            ref={messageInput}
-          />
           <form onSubmit={sendMessage}>
+            <input
+              type="text"
+              className="w-full h-12 rounded-xl bg-zinc-700 focus:ring-0 outline-none"
+              placeholder="Type a message here"
+              ref={messageInput}
+            />
             <button
               type="submit"
               className="w-7 h-7 bg-sky-500 absolute right-8 rounded-md top-1/2 -translate-y-1/2 mt-1 flex justify-center items-center"

@@ -28,10 +28,7 @@ const UserList = ({ setShowUserList }: UserListProps) => {
         <p className="font-bold text-md mb-4">MEMBERS</p>
         <ul>
           {users.map((user) => (
-            <li
-              className="flex items-center mb-4"
-              key={`User-Item-${user.email}`}
-            >
+            <li className="flex items-center mb-4" key={`User-Item-${user.id}`}>
               <img
                 className="w-7 h-7 mr-3 rounded-md"
                 src={`https://ui-avatars.com/api/?name=${user.name}`}
