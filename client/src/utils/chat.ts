@@ -1,7 +1,12 @@
 import { io, Socket } from 'socket.io-client';
 import Cookies from 'js-cookie';
 
-type Event = 'joinRoom' | 'sendMessage' | 'newUser' | 'userExited';
+type Event =
+  | 'joinRoom'
+  | 'sendMessage'
+  | 'newUser'
+  | 'userExited'
+  | 'exception';
 
 export class ChatConnection {
   socket: Socket;

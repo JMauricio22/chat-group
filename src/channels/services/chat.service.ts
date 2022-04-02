@@ -62,22 +62,11 @@ export class ChatService {
   }
 
   async joinUserToChannel(id: number, user: User): Promise<Channel> {
-    let channel = await this.channelService.getChannelWithUsers(id);
+    let channel = await this.channelService.getResolvedChannels(id);
     if (channel.users.findIndex((u: User) => u.id === user.id) === -1) {
       channel.users.push(user);
       channel = await this.channelService.saveChannel(channel);
     }
-    const messages = await this.messageRepository.find({
-      where: {
-        channel: channel,
-      },
-      relations: ['user'],
-      take: MESSAGE_LIMIT,
-      order: {
-        createdAt: 'ASC',
-      },
-    });
-    channel.messages = messages;
     const newChannel = plainToClass(Channel, channel);
     return newChannel;
   }

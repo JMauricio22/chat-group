@@ -17,9 +17,9 @@ export class ChannelService {
     return channels;
   }
 
-  async getChannelWithUsers(id: number): Promise<Channel> {
+  async getResolvedChannels(id: number): Promise<Channel> {
     const channel = await this.channelRepository.findOne(id, {
-      relations: ['users'],
+      relations: ['users', 'messages', 'messages.user'],
     });
 
     return channel;
