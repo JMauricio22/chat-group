@@ -11,3 +11,8 @@ export interface Channel extends ChannelInfo {
   users: User[];
   messages: Message[];
 }
+
+export interface CreateChannelDTO {
+  name: string;
+  description: string;
+}
