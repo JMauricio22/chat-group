@@ -5,12 +5,14 @@ interface ChannelState {
   list: ChannelInfo[];
   loading: boolean;
   error: string;
+  filter: string;
 }
 
 const initialState: ChannelState = {
   list: [],
   loading: false,
   error: '',
+  filter: '',
 };
 
 const channelSlice = createSlice({
@@ -21,23 +23,34 @@ const channelSlice = createSlice({
       list: [],
       loading: true,
       error: '',
+      filter: '',
     }),
     setChannels: (
       state: ChannelState,
-      action: PayloadAction<ChannelInfo[]>,
+      { payload }: PayloadAction<ChannelInfo[]>,
     ) => ({
-      list: action.payload,
+      list: payload,
       loading: false,
       error: '',
+      filter: '',
     }),
-    setError: (state: ChannelState, action: PayloadAction<string>) => ({
+    setError: (state: ChannelState, { payload }: PayloadAction<string>) => ({
       list: state.list,
       loading: false,
-      error: action.payload,
+      error: payload,
+      filter: '',
+    }),
+    changeFilter: (
+      state: ChannelState,
+      { payload }: PayloadAction<string>,
+    ) => ({
+      ...state,
+      filter: payload,
     }),
   },
 });
 
-export const { fetchingChannels, setChannels, setError } = channelSlice.actions;
+export const { fetchingChannels, setChannels, setError, changeFilter } =
+  channelSlice.actions;
 
 export default channelSlice.reducer;

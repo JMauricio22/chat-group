@@ -1,17 +1,32 @@
+import { createSelector } from '@reduxjs/toolkit';
 import { PlusIcon, SearchIcon } from '@heroicons/react/solid';
 import { useAppSelector } from '@hooks/useAppSelector';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import { ChannelInfo } from '@models/channel.model';
 import Loading from '@components/Loading';
+import { RootState } from '@redux/store';
+import { changeFilter } from '@redux/reducers/channels.reducer';
 
 type ChannelListProps = {
   openChannelDialog(): void;
   joinChannel(id: number): void;
 };
 
+const filterChannel = createSelector(
+  (state: RootState): string => state.channels.filter.toLowerCase(),
+  (state: RootState): ChannelInfo[] => state.channels.list,
+  (filter: string, list: ChannelInfo[]) =>
+    list.filter((channel) => channel.name.toLowerCase().includes(filter)),
+);
+
 const ChannelList = ({ openChannelDialog, joinChannel }: ChannelListProps) => {
   const loading = useAppSelector((state) => state.channels.loading);
-  const channels = useAppSelector((state) => state.channels.list);
+  const channels = useAppSelector(filterChannel);
+  const dispatch = useAppDispatch();
+
+  const handleChangeFilter = (event: React.FormEvent<HTMLInputElement>) => {
+    dispatch(changeFilter((event.target as any).value));
+  };
 
   return (
     <>
@@ -28,7 +43,8 @@ const ChannelList = ({ openChannelDialog, joinChannel }: ChannelListProps) => {
         <div className="relative">
           <SearchIcon className="w-6 h-6 text-white absolute left-2 top-1/2 -translate-y-1/2" />
           <input
-            className="w-full py-3 px-1 rounded-md bg-zinc-700 pl-11 ring-0 outline-none focus:ring-2 focus:ring-gray-500"
+            onChange={handleChangeFilter}
+            className="w-full text-white py-3 px-1 rounded-md bg-zinc-700 pl-11 ring-0 outline-none focus:ring-2 focus:ring-gray-500"
             placeholder="Search"
           />
         </div>

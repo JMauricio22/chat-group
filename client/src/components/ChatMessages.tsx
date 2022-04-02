@@ -32,6 +32,13 @@ const ChatMessages = ({ chatConnection }: ChatMessagesProps) => {
   };
 
   useEffect(() => {
+    if (ulElement.current) {
+      const ul = ulElement.current as HTMLUListElement;
+      ul.scrollTop = ul.scrollHeight - ul.clientHeight;
+    }
+  }, [messages]);
+
+  useEffect(() => {
     if (!ulElement.current) {
       return;
     }
