@@ -12,6 +12,7 @@ import { Channel } from '@models/channel.model';
 import { User } from '@models/user.model';
 import { ChatConnection } from '@utils/chat';
 import UserList from './UserList';
+import UserMenu from './UserMenu';
 
 type SlideMenuProps = {
   isOpen: boolean;
@@ -83,7 +84,7 @@ const SlideMenu = ({
         as={Fragment}
       >
         <div
-          className={`bg-black w-4/5 h-screen py-4 px-6 fixed left-0 top-0 z-40 md:static md:w-60`}
+          className={`bg-secondary w-4/5 max-h-screen h-screen py-4 px-6 fixed left-0 top-0 z-40 md:relative md:w-60`}
         >
           <button
             onClick={toggleSlideMenu}
@@ -99,6 +100,7 @@ const SlideMenu = ({
               joinChannel={joinChannel}
             />
           )}
+          <UserMenu top={true} />
         </div>
       </Transition>
     </>

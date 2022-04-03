@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       colors: {
         primary: '#252229',
+        secondary: '#110f12',
       },
       spacing: {
         110: '27.5rem',

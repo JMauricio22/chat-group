@@ -8,7 +8,7 @@ interface AuthenticationState {
 }
 
 const initialState: AuthenticationState = {
-  isLoggedIn: false,
+  isLoggedIn: true,
   error: null,
   loading: false,
 };
