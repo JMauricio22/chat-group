@@ -18,7 +18,12 @@ export class ChatConnection {
       auth: {
         token,
       },
+      autoConnect: false,
     });
+  }
+
+  connect() {
+    this.socket.connect();
   }
 
   joinRoom(channelId: number) {

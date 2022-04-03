@@ -14,6 +14,7 @@ const Chat = () => {
   };
 
   useEffect(() => {
+    chatConnection.connect();
     chatConnection.on<any>('exception', (data) => {
       console.log('socket exception:', data);
     });
