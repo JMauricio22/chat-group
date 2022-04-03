@@ -8,7 +8,7 @@ interface AuthenticationState {
 }
 
 const initialState: AuthenticationState = {
-  isLoggedIn: true,
+  isLoggedIn: false,
   error: null,
   loading: false,
 };
@@ -30,10 +30,15 @@ export const authenticationSlice = createSlice({
       error: null,
       loading: true,
     }),
+    logout: (state: AuthenticationState) => ({
+      isLoggedIn: false,
+      error: null,
+      loading: false,
+    }),
   },
 });
 
-export const { authenticate, unauthorized, logginIn } =
+export const { authenticate, unauthorized, logginIn, logout } =
   authenticationSlice.actions;
 
 export default authenticationSlice.reducer;

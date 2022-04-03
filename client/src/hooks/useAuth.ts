@@ -1,32 +1,41 @@
-import { useState, useEffect } from 'react';
 import { useAppSelector } from '@hooks/useAppSelector';
-import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
-import decode from 'jwt-decode';
+import { logout } from '@redux/reducers/authentication.reducer';
+import { useAppDispatch } from '@hooks/useAppDispatch';
+import { isValidToken } from '@utils/checkToken';
+import { getToken } from '@redux/thunks/sigin.thunk';
+import { SignInBody } from '@models/user.model';
+import { useRouter } from 'next/router';
 
 export function useAuth() {
-  const [isAuthenticate, setAuthenticate] = useState(false);
-  const [isLogginIn, setIsLoggingIn] = useState(true);
   const isLoggedIn = useAppSelector((state) => state.authentication.isLoggedIn);
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
-  useEffect(() => {
+  const checkAuth = (): boolean => {
     try {
-      const token = Cookies.get('token');
-      const decodeToken = isLoggedIn ? decode(token as string) : null;
-      if (isLoggedIn && decodeToken) {
-        setAuthenticate(true);
-      } else {
-        throw new Error('User is not authenticated');
+      if (!isLoggedIn) {
+        return false;
       }
-      setIsLoggingIn(false);
+      const token = Cookies.get('token');
+      return isValidToken(token || '');
     } catch (error) {
-      router.replace('/');
+      return false;
     }
-  }, []);
+  };
+
+  const signin = (values: SignInBody) => {
+    dispatch(getToken(values));
+  };
+
+  const signout = () => {
+    dispatch(logout());
+    router.replace('/');
+  };
 
   return {
-    isAuthenticate,
-    isLogginIn,
+    checkAuth,
+    signout,
+    signin,
   };
 }

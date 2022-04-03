@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/solid';
 import { LogoutIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
+import { useAuthProvider } from '@components/AuthProvider';
 import { useRouter } from 'next/router';
 
 type UserMenuProps = {
@@ -14,6 +15,7 @@ type UserMenuProps = {
 
 function UserMenu({ top = false }: UserMenuProps) {
   const { pathname } = useRouter();
+  const auth = useAuthProvider();
 
   return (
     <div className={`${top ? 'absolute left-0 bottom-0 w-full' : 'w-auto'}`}>
@@ -71,12 +73,13 @@ function UserMenu({ top = false }: UserMenuProps) {
           </Menu.Item>
           <hr className="mt-3 mb-1" />
           <Menu.Item>
-            <div className="px-2 py-3 rounded-md mb-1 text-red-400 cursor-pointer">
-              <a className="flex items-center h-full">
-                <LogoutIcon className="w-5 h-5 inline-block mr-1" />
-                <span className="text-sm font-normal">Logout</span>
-              </a>
-            </div>
+            <button
+              className="px-2 py-3 rounded-md mb-1 text-red-400 cursor-pointer flex items-center h-full"
+              onClick={auth.signout}
+            >
+              <LogoutIcon className="w-5 h-5 inline-block mr-1" />
+              <span className="text-sm font-normal">Logout</span>
+            </button>
           </Menu.Item>
         </Menu.Items>
       </Menu>

@@ -5,10 +5,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as yup from 'yup';
 import { MailIcon, LockClosedIcon } from '@heroicons/react/solid';
-import { useAppDispatch } from '@hooks/useAppDispatch';
 import { useAppSelector } from '@hooks/useAppSelector';
-import { getToken } from '@redux/thunks/sigin.thunk';
 import { SignInBody } from '@models/user.model';
+import { useAuthProvider } from '@components/AuthProvider';
 import Loading from '@components/Loading';
 import Alert from '@components/Alert';
 
@@ -18,17 +17,17 @@ const SigninSchema = yup.object().shape({
 });
 
 const Home: NextPage = () => {
-  const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector((state) => state.authentication.isLoggedIn);
   const loading = useAppSelector((state) => state.authentication.loading);
   const error = useAppSelector((state) => state.authentication.error);
+  const auth = useAuthProvider();
   const form = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
     onSubmit: (values: SignInBody) => {
-      dispatch(getToken(values));
+      auth.signin(values);
     },
     validationSchema: SigninSchema,
   });

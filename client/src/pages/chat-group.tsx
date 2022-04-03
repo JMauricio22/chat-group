@@ -22,6 +22,6 @@ const ChatContainer = () => {
   );
 };
 
-// ChatContainer.protected = true;
+ChatContainer.protected = true;
 
 export default ChatContainer;

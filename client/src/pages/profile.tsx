@@ -89,6 +89,6 @@ const profile = () => {
   );
 };
 
-// profile.protected = true;
+profile.protected = true;
 
 export default profile;
