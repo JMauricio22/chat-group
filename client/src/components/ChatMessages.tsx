@@ -5,6 +5,7 @@ import { Message } from '@models/message.models';
 import { MailIcon } from '@heroicons/react/solid';
 import { ChatConnection } from '@utils/chat';
 import { addNewMessage } from '@redux/reducers/chat.reducer';
+import moment from 'moment';
 
 type ChatMessagesProps = {
   chatConnection: ChatConnection;
@@ -72,7 +73,9 @@ const ChatMessages = ({ chatConnection }: ChatMessagesProps) => {
                   <div className="mr-4 text-lg font-bold ">
                     {message.user.name}
                   </div>
-                  <div className="text-sm font-thin">today at 1:29 PM</div>
+                  <div className="text-sm font-thin">
+                    {moment(message.createdAt).fromNow()}
+                  </div>
                 </div>
                 <div>{message.text}</div>
               </div>
