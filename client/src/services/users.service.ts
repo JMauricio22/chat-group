@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { fetch } from '@services/config';
+import { User } from '@models/user.model';
 import { CreateUserDTO, SignInBody } from '@models/user.model';
 
 export const registerUser = async (body: CreateUserDTO) => {
@@ -7,9 +8,11 @@ export const registerUser = async (body: CreateUserDTO) => {
   return response;
 };
 
-export const sigin = async (body: SignInBody) => {
+export const sigin = async (
+  body: SignInBody,
+): Promise<{ access_token: string; user: User }> => {
   const response: AxiosResponse = await fetch.post('/auth/login', body);
-  return response.data.access_token;
+  return response.data;
 };
 
 export const getProfile = async () => {

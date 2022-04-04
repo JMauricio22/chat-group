@@ -47,8 +47,8 @@ const profile = () => {
                   Photo
                 </div>
                 <img
-                  className="w-24 h-24"
-                  src="https://manmedicalinstitute.com/wp-content/uploads/2021/10/man.jpeg"
+                  className="w-14 h-14 rounded-md"
+                  src={`https://ui-avatars.com/api/?name=${profile?.name}`}
                 />
               </div>
               <div className="flex justify-between mb-2 py-10 border-b-1 border-gray-200 md:px-8 md:justify-start items-center">

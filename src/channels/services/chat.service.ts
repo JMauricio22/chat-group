@@ -11,8 +11,6 @@ import { Message } from '@channels/entities/message.entity';
 import { UsersService } from '@users/services/users.service';
 import { ChannelService } from '@channels/services/channels.service';
 
-const MESSAGE_LIMIT = 10;
-
 @Injectable()
 export class ChatService {
   constructor(
@@ -62,16 +60,24 @@ export class ChatService {
   }
 
   async joinUserToChannel(id: number, user: User): Promise<Channel> {
-    let channel = await this.channelService.getResolvedChannels(id);
-    if (channel.users.findIndex((u: User) => u.id === user.id) === -1) {
-      channel.users.push(user);
-      channel = await this.channelService.saveChannel(channel);
+    try {
+      let channel = await this.channelService.getResolvedChannels(id);
+      if (channel.users.findIndex((u: User) => u.id === user.id) === -1) {
+        channel.users.push(user);
+        channel = await this.channelService.saveChannel(channel);
+      }
+      const newChannel = plainToClass(Channel, channel);
+      return newChannel;
+    } catch (error) {
+      throw new WsException(error.message);
     }
-    const newChannel = plainToClass(Channel, channel);
-    return newChannel;
   }
 
   async removeUserFromChannel(user: User): Promise<void> {
-    await this.userService.setChannelToNull(user);
+    try {
+      await this.userService.setChannelToNull(user);
+    } catch (error) {
+      throw new WsException(error.message);
+    }
   }
 }

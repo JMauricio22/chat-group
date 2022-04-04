@@ -39,7 +39,7 @@ export class Message {
   channel: Channel;
 
   @Column({
-    type: 'timestamp',
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
     name: 'created_at',
   })
@@ -47,7 +47,7 @@ export class Message {
 
   @Exclude()
   @Column({
-    type: 'timestamp',
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
     name: 'updated_at',
   })

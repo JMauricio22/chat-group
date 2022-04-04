@@ -20,6 +20,7 @@ import Configuration from '@config/configuration';
           database: dbName,
           synchronize: false,
           autoLoadEntities: true,
+          logging: ['query', 'error'],
         };
       },
       inject: [Configuration.KEY],

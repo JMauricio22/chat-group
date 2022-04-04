@@ -23,7 +23,7 @@ export class Channel {
 
   @Exclude()
   @Column({
-    type: 'timestamp',
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
     name: 'created_at',
   })
@@ -31,7 +31,7 @@ export class Channel {
 
   @Exclude()
   @Column({
-    type: 'timestamp',
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
     name: 'updated_at',
   })

@@ -20,7 +20,7 @@ type SlideMenuProps = {
   chatConnection: ChatConnection;
 };
 
-const WELCOME_CHANNEL_ID = 4;
+const WELCOME_CHANNEL_ID = 1;
 
 const SlideMenu = ({
   isOpen,

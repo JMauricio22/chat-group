@@ -4,6 +4,7 @@ import {
   UserCircleIcon,
   ChatIcon,
 } from '@heroicons/react/solid';
+import { useAppSelector } from '@hooks/useAppSelector';
 import { LogoutIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { useAuthProvider } from '@components/AuthProvider';
@@ -14,6 +15,7 @@ type UserMenuProps = {
 };
 
 function UserMenu({ top = false }: UserMenuProps) {
+  const userName = useAppSelector((state) => state.user.profile?.name);
   const { pathname } = useRouter();
   const auth = useAuthProvider();
 
@@ -29,10 +31,10 @@ function UserMenu({ top = false }: UserMenuProps) {
           <div className="flex items-center">
             <img
               className="w-6 h-8 mr-3 rounded-md"
-              src="https://ui-avatars.com/api/?name=John Cenna"
+              src={`https://ui-avatars.com/api/?name=${userName}`}
             />
             <span className="text-md font-semibold text-gray-400 mr-8">
-              Xanthe Neal
+              {userName}
             </span>
           </div>
           <ChevronDownIcon className="w-4 h-4" />

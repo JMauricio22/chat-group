@@ -62,25 +62,31 @@ const ChatMessages = ({ chatConnection }: ChatMessagesProps) => {
           className="overflow-auto pt-16 scrollbar-thin flex-1"
           ref={ulElement}
         >
-          {messages.map((message: Message, index) => (
-            <li key={`Message-Item-${index}`} className="flex mb-4">
-              <img
-                className="w-8 h-8 mr-3 rounded-md"
-                src={`https://ui-avatars.com/api/?name=${message.user.name}`}
-              />
-              <div>
-                <div className="text-zinc-400 mb-2 flex items-center">
-                  <div className="mr-4 text-lg font-bold ">
-                    {message.user.name}
+          {messages.map((message: Message, index) => {
+            console.log(
+              'message.createdAt:',
+              message.createdAt.substring(0, message.createdAt.length - 2),
+            );
+            return (
+              <li key={`Message-Item-${index}`} className="flex mb-4">
+                <img
+                  className="w-8 h-8 mr-3 rounded-md"
+                  src={`https://ui-avatars.com/api/?name=${message.user.name}`}
+                />
+                <div>
+                  <div className="text-zinc-400 mb-2 flex items-center">
+                    <div className="mr-4 text-lg font-bold ">
+                      {message.user.name}
+                    </div>
+                    <div className="text-sm font-thin">
+                      {moment.utc(message.createdAt).fromNow()}
+                    </div>
                   </div>
-                  <div className="text-sm font-thin">
-                    {moment(message.createdAt).fromNow()}
-                  </div>
+                  <div>{message.text}</div>
                 </div>
-                <div>{message.text}</div>
-              </div>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
         <div className="h-20"></div>
         <div className="h-auto w-full pb-4 pt-6 px-4 absolute left-0 bottom-0">

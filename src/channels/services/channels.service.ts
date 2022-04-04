@@ -12,7 +12,7 @@ export class ChannelService {
 
   async find(): Promise<Channel[]> {
     const channels = await this.channelRepository.find({
-      relations: ['users'],
+      relations: ['users', 'messages'],
     });
     return channels;
   }
