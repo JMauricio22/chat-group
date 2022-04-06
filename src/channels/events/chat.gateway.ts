@@ -6,7 +6,6 @@ import {
   ConnectedSocket,
   WsResponse,
   OnGatewayDisconnect,
-  WsException,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { Channel } from '@channels/entities/channel.entity';
@@ -58,7 +57,6 @@ export class ChatGateway implements OnGatewayDisconnect {
     @ConnectedSocket() socket: Socket,
     @MessageBody() body: any,
   ): Promise<WsResponse<Channel>> {
-    // throw new WsException('Error in joinRoom');
     const user = await this.chatService.getUserFromToken(socket);
     const channel = await this.chatService.joinUserToChannel(
       body.channelId,

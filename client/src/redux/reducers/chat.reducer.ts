@@ -10,7 +10,7 @@ interface ChatState {
   description: string;
   messages: Message[];
   users: User[];
-  error: string;
+  error: any;
 }
 
 const initialState: ChatState = {
@@ -51,7 +51,7 @@ const messageSlice = createSlice({
     },
     errorJoiningChannel: (
       state: ChatState,
-      { payload }: PayloadAction<string>,
+      { payload }: PayloadAction<any>,
     ) => ({
       ...state,
       error: payload,

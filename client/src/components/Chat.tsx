@@ -4,15 +4,15 @@ import ChatHeader from '@components/ChatHeader';
 import ChatMessages from '@components/ChatMessages';
 import { useAppSelector } from '@hooks/useAppSelector';
 import { useAppDispatch } from '@hooks/useAppDispatch';
-import { ChatConnection } from '@utils/chat';
+import chatConnection from '@utils/chat';
 import {
   errorJoiningChannel,
-  retryChannelConnection,
   successfulReconnection,
 } from '@redux/reducers/chat.reducer';
 import ChatErrorOverlay from '@components/ChatErrorOverlay';
-
-const chatConnection = new ChatConnection();
+import SocketJoinRoomError from '@utils/exceptions/socket/SocketJoinRoomError';
+import SocketConnectionError from '@utils/exceptions/socket/SocketConnectionError';
+import { DEFAULT_CHANNEL_ID } from '@utils/chat';
 
 const Chat = () => {
   const [slideIsOpen, setSlideIsOpen] = useState(false);
@@ -26,15 +26,17 @@ const Chat = () => {
   useEffect(() => {
     chatConnection.connect();
     chatConnection.on<any>('exception', (data) => {
-      dispatch(errorJoiningChannel(data.message));
+      dispatch(
+        errorJoiningChannel(new SocketJoinRoomError(DEFAULT_CHANNEL_ID)),
+      );
     });
     chatConnection.on<any>('disconnect', (reason) => {
       if (reason === 'transport close') {
-        dispatch(errorJoiningChannel(reason));
+        dispatch(errorJoiningChannel(new SocketConnectionError(reason)));
       }
     });
     chatConnection.on<any>('connect_error', (error) => {
-      dispatch(errorJoiningChannel(error.message));
+      dispatch(errorJoiningChannel(new SocketConnectionError(error.message)));
     });
     chatConnection.on<any>('connect', () => {
       dispatch(successfulReconnection());
@@ -44,15 +46,13 @@ const Chat = () => {
     };
   }, []);
 
-  const retryJoinChannel = () => {
-    // chatConnection.joinRoom(1);
-    chatConnection.connect();
-    dispatch(retryChannelConnection());
-  };
-
   return (
     <>
-      {error && <ChatErrorOverlay retryJoinChannel={retryJoinChannel} />}
+      {error && (
+        <ChatErrorOverlay
+          errorHandler={chatConnection.getHandlerError(error)}
+        />
+      )}
       <div className={`h-screen w-full md:flex ${error ? 'blur-sm' : ''}`}>
         <SlideMenu
           isOpen={slideIsOpen}

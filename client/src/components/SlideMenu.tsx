@@ -11,16 +11,15 @@ import { joimRoom, addNewUser, userExited } from '@redux/reducers/chat.reducer';
 import { Channel } from '@models/channel.model';
 import { User } from '@models/user.model';
 import { ChatConnection } from '@utils/chat';
-import UserList from './UserList';
-import UserMenu from './UserMenu';
+import UserList from '@components/UserList';
+import UserMenu from '@components/UserMenu';
+import { DEFAULT_CHANNEL_ID } from '@utils/chat';
 
 type SlideMenuProps = {
   isOpen: boolean;
   toggleSlideMenu(): void;
   chatConnection: ChatConnection;
 };
-
-const WELCOME_CHANNEL_ID = 1;
 
 const SlideMenu = ({
   isOpen,
@@ -42,7 +41,7 @@ const SlideMenu = ({
   };
 
   useEffect(() => {
-    chatConnection.joinRoom(WELCOME_CHANNEL_ID);
+    chatConnection.joinRoom(DEFAULT_CHANNEL_ID);
     chatConnection.on<Channel>('joinRoom', (data) => {
       dispatch(joimRoom(data));
       setShowUserList(true);
@@ -61,6 +60,7 @@ const SlideMenu = ({
 
   const joinChannel = (channelId: number) => {
     if (currentChannel !== channelId) {
+      window.sessionStorage.setItem('selectedChannel', channelId.toString());
       chatConnection.joinRoom(channelId);
     }
     setShowUserList(true);
