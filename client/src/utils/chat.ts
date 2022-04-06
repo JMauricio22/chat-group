@@ -1,12 +1,16 @@
 import { io, Socket } from 'socket.io-client';
 import Cookies from 'js-cookie';
 
-type Event =
-  | 'joinRoom'
-  | 'sendMessage'
-  | 'newUser'
-  | 'userExited'
-  | 'exception';
+// type Event =
+//   | 'joinRoom'
+//   | 'sendMessage'
+//   | 'newUser'
+//   | 'userExited'
+//   | 'exception'
+//   | 'error'
+//   | 'disconnect';
+
+type Event = any;
 
 export class ChatConnection {
   socket: Socket;
@@ -19,6 +23,7 @@ export class ChatConnection {
         token,
       },
       autoConnect: false,
+      reconnection: false,
     });
   }
 

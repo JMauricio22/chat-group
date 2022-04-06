@@ -63,10 +63,6 @@ const ChatMessages = ({ chatConnection }: ChatMessagesProps) => {
           ref={ulElement}
         >
           {messages.map((message: Message, index) => {
-            console.log(
-              'message.createdAt:',
-              message.createdAt.substring(0, message.createdAt.length - 2),
-            );
             return (
               <li key={`Message-Item-${index}`} className="flex mb-4">
                 <img
