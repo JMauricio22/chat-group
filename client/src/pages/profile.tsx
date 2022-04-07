@@ -50,7 +50,7 @@ const profile = () => {
 
             <div
               className={`flex justify-between mb-4 md:px-8 ${
-                isEdit ? 'mb-2' : 'md:border-b-1 mb-4'
+                isEdit ? 'mb-3' : 'md:border-b-1 mb-4'
               } md:pt-4 md:pb-8`}
             >
               <div className="md:w-auto w-52">

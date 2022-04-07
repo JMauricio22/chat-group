@@ -20,7 +20,9 @@ const ProfileInfo = ({ profile }: ProfileInfoProps) => {
       </div>
       <div className="flex justify-between mb-2 py-10 border-b-1 border-gray-200 md:px-8 md:justify-start items-center">
         <div className="text-gray-300 uppercase text-sm md:w-52">Bio</div>
-        <div className="text-lg font-light">{profile?.bio}</div>
+        <div className="text-lg font-light md:w-96 w-52 text-ellipsis overflow-hidden whitespace-nowrap">
+          {profile?.bio}
+        </div>
       </div>
       <div className="flex justify-between mb-2 py-10 border-b-1 border-gray-200 md:px-8 md:justify-start items-center">
         <div className="text-gray-300 uppercase text-sm md:w-52">Phone</div>

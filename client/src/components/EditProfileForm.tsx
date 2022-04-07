@@ -98,7 +98,7 @@ const EditProfileForm = () => {
   }, []);
 
   return (
-    <div className="px-8 pb-10">
+    <div className="md:px-8 pb-10">
       {error && <Alert message={error} />}
       <form onSubmit={form.handleSubmit}>
         {fields.map((field) => (
