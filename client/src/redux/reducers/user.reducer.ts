@@ -14,8 +14,9 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     fetchingUser: (state: UserState) => ({
-      ...initialState,
+      ...state,
       error: '',
+      loading: true,
     }),
     addUser: (state: UserState, { payload }: PayloadAction<User>) => ({
       ...initialState,
@@ -30,6 +31,7 @@ export const userSlice = createSlice({
     ) => ({
       ...state,
       error: payload,
+      loading: false,
     }),
   },
 });

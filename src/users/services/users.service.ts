@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -19,6 +23,13 @@ export class UsersService {
     return user;
   }
 
+  async isUserEmailAlredyExist(email: string) {
+    const user = await this.findByEmail(email);
+    if (user) {
+      throw new ConflictException(`User with eamil ${email} alredy exists`);
+    }
+  }
+
   async findByEmail(email: string): Promise<User | undefined> {
     const user = await this.userRepository.findOne({
       where: {
@@ -30,6 +41,7 @@ export class UsersService {
   }
 
   async create(body: RegisterUser): Promise<User> {
+    this.isUserEmailAlredyExist(body.email);
     const newUser = await this.userRepository.save(
       this.userRepository.create(body),
     );
@@ -38,6 +50,9 @@ export class UsersService {
 
   async update(id: number, body: UpdateUser) {
     const user = await this.findById(id);
+    if (body.email && user.email !== body.email) {
+      await this.isUserEmailAlredyExist(body.email);
+    }
     if (body.password) {
       const newPassword = await bcrypt.hash(body.password, 10);
       user.password = newPassword;

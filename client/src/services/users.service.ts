@@ -4,7 +4,7 @@ import { User } from '@models/user.model';
 import { CreateUserDTO, SignInBody, UpdateUserDTO } from '@models/user.model';
 
 export const registerUser = async (body: CreateUserDTO) => {
-  const response: AxiosResponse = await fetch.post('/auth/register', body);
+  const response: AxiosResponse = await fetch.post('/users/register', body);
   return response;
 };
 

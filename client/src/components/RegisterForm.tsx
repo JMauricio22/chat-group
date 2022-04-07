@@ -1,5 +1,6 @@
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import { AxiosError } from 'axios';
 import * as yup from 'yup';
 import InputWithError from '../components/InputWithError';
 import { registerUser } from '@services/users.service';
@@ -77,8 +78,15 @@ const RegisterForm = () => {
         setLoading(true);
         await registerUser(values);
         router.push('/');
-      } catch (error) {
-        setError(`An error occurred while registering the user`);
+      } catch (error: any) {
+        let errorMessage = `An error occurred while registering the user`;
+        if (error.response) {
+          const responseError = error as AxiosError;
+          if (responseError.response?.status === 409) {
+            errorMessage = `user with email ${form.values.email} alredy exists`;
+          }
+        }
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { AxiosError } from 'axios';
 import InputWithError from '@components/InputWithError';
 import { updateUser } from '@services/users.service';
 import { UpdateUserDTO } from '@models/user.model';
@@ -86,7 +87,14 @@ const EditProfileForm = () => {
         dispatch(addUser(data));
         form.resetForm();
       } catch (error: any) {
-        errorGettingUser(`An error occurred while updating the user`);
+        let errorMessage = `An error occurred while updating the user`;
+        if (error.response) {
+          const responseError = error as AxiosError;
+          if (responseError.response?.status === 409) {
+            errorMessage = `user with email ${form.values.email} alredy exists`;
+          }
+        }
+        dispatch(errorGettingUser(errorMessage));
       }
     },
   });
@@ -121,7 +129,7 @@ const EditProfileForm = () => {
         <button
           type="submit"
           disabled={loading}
-          className="bg-indigo-500 hover:bg-indigo-600 mt-4 p-1 w-20 rounded-md"
+          className="bg-indigo-500 hover:bg-indigo-600 mt-4 p-1 rounded-md w-auto px-3"
         >
           {loading ? <Loading /> : 'Save'}
         </button>
