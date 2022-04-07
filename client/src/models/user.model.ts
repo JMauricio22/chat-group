@@ -6,7 +6,7 @@ export interface User {
   phone: string;
 }
 
-export interface CreateUserDTO extends User {
+export interface CreateUserDTO extends Omit<User, 'id'> {
   password: string;
   repeatedPassword: string;
 }

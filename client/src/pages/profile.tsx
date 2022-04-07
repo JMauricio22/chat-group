@@ -1,10 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { ChevronLeftIcon } from '@heroicons/react/solid';
 import Header from '@components/Header';
 import { getUserProfile } from '@redux/thunks/getUserProfile.thunk';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import { useAppSelector } from '@hooks/useAppSelector';
+import { User } from '@models/user.model';
+import ProfileInfo from '@components/ProfileInfo';
+import EditProfileForm from '@components/EditProfileForm';
 
 const profile = () => {
+  const [isEdit, setIsEdit] = useState(false);
   const profile = useAppSelector((state) => state.user.profile);
   // const error = useAppSelector((state) => state.user.error);
   const dispatch = useAppDispatch();
@@ -15,6 +20,10 @@ const profile = () => {
     }
     fetchUserProfile();
   }, []);
+
+  const toggleEditMode = () => {
+    setIsEdit(!isEdit);
+  };
 
   return (
     <section className="min-h-screen w-full text-white">
@@ -27,8 +36,23 @@ const profile = () => {
               Basic info, like your named and photo
             </h2>
           </div>
-          <div className="md:border-gray-50 md:pt-4 md:rounded-xl md:shadow-2xl md:border-1">
-            <div className="flex justify-between mb-4 md:px-8 md:border-b-1 md:pt-4 md:pb-8">
+
+          <div className="md:border-gray-50 md:pt-4 md:rounded-xl md:shadow-2xl md:border-1 relative">
+            {isEdit && (
+              <span
+                className="absolute left-0 -top-8 flex items-center cursor-pointer text-sky-500"
+                onClick={toggleEditMode}
+              >
+                <ChevronLeftIcon className="w-5 h-5" />
+                Back
+              </span>
+            )}
+
+            <div
+              className={`flex justify-between mb-4 md:px-8 ${
+                isEdit ? 'mb-2' : 'md:border-b-1 mb-4'
+              } md:pt-4 md:pb-8`}
+            >
               <div className="md:w-auto w-52">
                 <p className="text-2xl mb-1">Profile</p>
                 <span className="text-md text-gray-200">
@@ -36,52 +60,22 @@ const profile = () => {
                 </span>
               </div>
               <div>
-                <button className="bg-indigo-700 w-24 h-10 rounded-lg border-gray-50 mt-4 hover:bg-indigo-800">
-                  Edit
-                </button>
+                {!isEdit && (
+                  <button
+                    className="bg-indigo-700 w-24 h-10 rounded-lg border-gray-50 mt-4 hover:bg-indigo-800"
+                    onClick={toggleEditMode}
+                  >
+                    Edit
+                  </button>
+                )}
               </div>
             </div>
-            <div>
-              <div className="flex justify-between mb-2 py-10 border-b-1 border-gray-200 items-center md:px-8 md:justify-start">
-                <div className="text-gray-300 uppercase text-sm md:w-52">
-                  Photo
-                </div>
-                <img
-                  className="w-14 h-14 rounded-md"
-                  src={`https://ui-avatars.com/api/?name=${profile?.name}`}
-                />
-              </div>
-              <div className="flex justify-between mb-2 py-10 border-b-1 border-gray-200 md:px-8 md:justify-start items-center">
-                <div className="text-gray-300 uppercase text-sm md:w-52">
-                  Name
-                </div>
-                <div className="text-lg font-bold">{profile?.name}</div>
-              </div>
-              <div className="flex justify-between mb-2 py-10 border-b-1 border-gray-200 md:px-8 md:justify-start items-center">
-                <div className="text-gray-300 uppercase text-sm md:w-52">
-                  Bio
-                </div>
-                <div className="text-lg font-bold">{profile?.bio}</div>
-              </div>
-              <div className="flex justify-between mb-2 py-10 border-b-1 border-gray-200 md:px-8 md:justify-start items-center">
-                <div className="text-gray-300 uppercase text-sm md:w-52">
-                  Phone
-                </div>
-                <div className="text-lg font-bold">{profile?.phone}</div>
-              </div>
-              <div className="flex justify-between mb-2 py-10  md:px-8 md:justify-start items-center">
-                <div className="text-gray-300 uppercase text-sm md:w-52">
-                  Email
-                </div>
-                <div className="text-lg font-bold">{profile?.email}</div>
-              </div>
-              {/* <div className="flex justify-between py-10 border-gray-200 md:px-8 md:justify-start items-center">
-              <div className="text-gray-300 uppercase text-sm md:w-52">
-                Password
-              </div>
-              <div className="text-lg font-bold">********</div>
-            </div> */}
-            </div>
+
+            {isEdit ? (
+              <EditProfileForm />
+            ) : (
+              <ProfileInfo profile={profile as User} />
+            )}
           </div>
         </div>
       </div>
@@ -89,6 +83,6 @@ const profile = () => {
   );
 };
 
-profile.protected = true;
+// profile.protected = true;
 
 export default profile;

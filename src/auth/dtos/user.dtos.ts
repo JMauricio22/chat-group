@@ -1,4 +1,4 @@
-import { IsString, Length, IsEmail } from 'class-validator';
+import { IsString, Length, IsEmail, IsOptional } from 'class-validator';
 
 export class RegisterUser {
   @IsEmail()
@@ -15,5 +15,22 @@ export class RegisterUser {
   bio: string;
 
   @IsString()
+  phone: string;
+}
+
+export class UpdateUser extends RegisterUser {
+  @IsOptional()
+  email: string;
+
+  @IsOptional()
+  password: string;
+
+  @IsOptional()
+  name: string;
+
+  @IsOptional()
+  bio: string;
+
+  @IsOptional()
   phone: string;
 }

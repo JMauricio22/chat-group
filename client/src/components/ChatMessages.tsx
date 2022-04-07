@@ -25,7 +25,7 @@ const ChatMessages = ({ chatConnection }: ChatMessagesProps) => {
       (messageInput.current as HTMLInputElement).value
     ) {
       chatConnection.sendMessage(
-        channelId,
+        channelId as number,
         (messageInput.current as HTMLInputElement).value,
       );
       (messageInput.current as HTMLInputElement).value = '';

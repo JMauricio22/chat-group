@@ -4,11 +4,12 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   BeforeInsert,
+  BeforeUpdate,
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude } from 'class-transformer';
 import { Message } from '../../channels/entities/message.entity';
 import { Channel } from '../../channels/entities/channel.entity';
 
@@ -78,7 +79,10 @@ export class User {
   channel: Channel;
 
   @BeforeInsert()
+  @BeforeUpdate()
   async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 10);
+    if (this.password) {
+      this.password = await bcrypt.hash(this.password, 10);
+    }
   }
 }

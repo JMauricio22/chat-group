@@ -34,6 +34,7 @@ const Chat = () => {
       if (reason === 'transport close') {
         dispatch(errorJoiningChannel(new SocketConnectionError(reason)));
       }
+      console.log(`Disconnect socket.io reason: ${reason}`);
     });
     chatConnection.on<any>('connect_error', (error) => {
       dispatch(errorJoiningChannel(new SocketConnectionError(error.message)));

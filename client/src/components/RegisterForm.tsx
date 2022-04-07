@@ -23,6 +23,7 @@ interface Fields {
   label: string;
   name: string;
   type: string;
+  displayTextArea?: boolean;
 }
 
 const fields: Fields[] = [
@@ -40,6 +41,7 @@ const fields: Fields[] = [
     label: 'Bio',
     type: 'text',
     name: 'bio',
+    displayTextArea: true,
   },
   {
     label: 'Phone',
@@ -99,6 +101,7 @@ const RegisterForm = () => {
               label={item.label}
               type={item.type}
               placeholder={`${item.label}...`}
+              displayTextArea={item.displayTextArea}
               hasError={
                 !!(form.errors as any)[item.name] &&
                 (form.touched as any)[item.name]

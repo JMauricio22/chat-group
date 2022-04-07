@@ -27,13 +27,6 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  async getProfile(@Request() req) {
-    const user = await this.userService.findById(req.user.userId);
-    return user;
-  }
-
   @UseFilters(QueryException)
   @Post('register')
   async create(@Body() body: RegisterUser) {

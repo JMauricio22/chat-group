@@ -4,7 +4,7 @@ import { User } from '@models/user.model';
 type UserState = {
   loading: boolean;
   profile: User | null;
-  error: string | null;
+  error: string;
 };
 
 const initialState: UserState = { loading: false, profile: null, error: '' };
@@ -14,23 +14,27 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     fetchingUser: (state: UserState) => ({
-      loading: true,
-      profile: null,
-      error: null,
+      ...initialState,
+      error: '',
     }),
-    addUser: (state: UserState, action: PayloadAction<User>) => ({
-      loading: false,
-      profile: action.payload,
-      error: null,
+    addUser: (state: UserState, { payload }: PayloadAction<User>) => ({
+      ...initialState,
+      profile: payload,
     }),
     setUserInNull: (state: UserState) => ({
-      loading: false,
-      profile: null,
-      error: null,
+      ...initialState,
+    }),
+    errorGettingUser: (
+      state: UserState,
+      { payload }: PayloadAction<string>,
+    ) => ({
+      ...state,
+      error: payload,
     }),
   },
 });
 
-export const { addUser, setUserInNull, fetchingUser } = userSlice.actions;
+export const { addUser, setUserInNull, fetchingUser, errorGettingUser } =
+  userSlice.actions;
 
 export default userSlice.reducer;
