@@ -13,8 +13,8 @@ type ChatMessagesProps = {
 
 const ChatMessages = ({ chatConnection }: ChatMessagesProps) => {
   const channelId = useAppSelector((state) => state.chat.id);
-  const dispatch = useAppDispatch();
   const messages = useAppSelector((state) => state.chat.messages);
+  const dispatch = useAppDispatch();
   const messageInput = useRef(null);
   const ulElement = useRef(null);
 

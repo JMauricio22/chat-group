@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { AppDispatch } from '@redux/store';
 import { retryChannelConnection } from '@redux/reducers/chat.reducer';
 
-type Event =
+type EventNames =
   | 'joinRoom'
   | 'sendMessage'
   | 'newUser'
@@ -17,6 +17,11 @@ export const DEFAULT_CHANNEL_ID = 1;
 
 export interface ErrorHandler {
   (dispatch: AppDispatch): void;
+}
+
+interface Event {
+  name: string;
+  handler: (...args: any[]) => void;
 }
 
 function getConnectionErrorHandler(dispatch: AppDispatch) {
@@ -39,6 +44,7 @@ const errorHandlers: Record<string, ErrorHandler> = {
 
 export class ChatConnection {
   socket: Socket;
+  events: Event[] = [];
 
   constructor() {
     const token = Cookies.get('token');
@@ -56,6 +62,16 @@ export class ChatConnection {
     this.socket.connect();
   }
 
+  private generateEvent(
+    name: string,
+    handler: (...args: any[]) => void,
+  ): Event {
+    return {
+      name,
+      handler,
+    };
+  }
+
   joinRoom(channelId: number) {
     this.socket.emit('joinRoom', { channelId });
   }
@@ -64,11 +80,16 @@ export class ChatConnection {
     this.socket.emit('sendMessage', { channelId, content });
   }
 
-  on<T>(event: Event, callback: (data: T) => void) {
+  on<T>(event: EventNames, callback: (data: T) => void) {
+    this.events.push(this.generateEvent(event, callback));
     this.socket.on(event, callback);
   }
 
   disconnect() {
+    this.events.forEach((event) => {
+      this.socket.off(event.name, event.handler);
+    });
+    this.events = [];
     this.socket.disconnect();
   }
 
