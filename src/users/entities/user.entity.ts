@@ -4,7 +4,6 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   BeforeInsert,
-  BeforeUpdate,
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
@@ -79,10 +78,7 @@ export class User {
   channel: Channel;
 
   @BeforeInsert()
-  @BeforeUpdate()
   async hashPassword() {
-    if (this.password) {
-      this.password = await bcrypt.hash(this.password, 10);
-    }
+    this.password = await bcrypt.hash(this.password, 10);
   }
 }
