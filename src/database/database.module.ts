@@ -9,15 +9,10 @@ import Configuration from '@config/configuration';
       useFactory: async (
         configurationService: ConfigType<typeof Configuration>,
       ) => {
-        const { host, port, username, password, dbName } =
-          configurationService.postgres;
+        const { url } = configurationService.postgres;
         return {
           type: 'postgres',
-          host,
-          port,
-          username,
-          password,
-          database: dbName,
+          url,
           synchronize: false,
           autoLoadEntities: true,
           logging: ['error'],
