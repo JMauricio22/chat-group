@@ -49,7 +49,7 @@ export class ChatConnection {
   constructor() {
     const token = Cookies.get('token');
 
-    this.socket = io('ws://localhost:3300', {
+    this.socket = io(process.env.NEXT_PUBLIC_API as string, {
       auth: {
         token,
       },
