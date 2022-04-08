@@ -80,16 +80,24 @@ export class ChatConnection {
     this.socket.emit('sendMessage', { channelId, content });
   }
 
+  userExited() {
+    this.socket.emit('userExited');
+  }
+
   on<T>(event: EventNames, callback: (data: T) => void) {
     this.events.push(this.generateEvent(event, callback));
     this.socket.on(event, callback);
   }
 
-  disconnect() {
+  removeAllListeners() {
     this.events.forEach((event) => {
       this.socket.off(event.name, event.handler);
     });
     this.events = [];
+  }
+
+  disconnect() {
+    this.removeAllListeners();
     this.socket.disconnect();
   }
 

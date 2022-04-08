@@ -51,6 +51,13 @@ export class ChatGateway implements OnGatewayDisconnect {
     message.user = user;
     this.server.to(body.channelId.toString()).emit('sendMessage', message);
   }
+  @SubscribeMessage('userExited')
+  async userExited(@ConnectedSocket() socket: Socket) {
+    const user = await this.chatService.getUserFromToken(socket);
+    socket.rooms.forEach((room) => {
+      socket.broadcast.to(room).emit('userExited', user);
+    });
+  }
 
   @SubscribeMessage('joinRoom')
   async joinToChannel(

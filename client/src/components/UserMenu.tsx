@@ -33,7 +33,7 @@ function UserMenu({ top = false }: UserMenuProps) {
               className="w-6 h-8 mr-3 rounded-md"
               src={`https://ui-avatars.com/api/?name=${userName}`}
             />
-            <span className="text-md font-semibold text-gray-400 mr-8">
+            <span className="text-sm font-semibold text-gray-400 mr-8">
               {userName}
             </span>
           </div>

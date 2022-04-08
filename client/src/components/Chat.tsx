@@ -43,6 +43,7 @@ const Chat = () => {
       dispatch(successfulReconnection());
     });
     return () => {
+      chatConnection.userExited();
       chatConnection.disconnect();
     };
   }, []);
