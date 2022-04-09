@@ -1,3 +1,4 @@
+import { Transition } from '@headlessui/react';
 import { createSelector } from '@reduxjs/toolkit';
 import { PlusIcon, SearchIcon } from '@heroicons/react/solid';
 import { useAppSelector } from '@hooks/useAppSelector';
@@ -53,17 +54,23 @@ const ChannelList = ({ openChannelDialog, joinChannel }: ChannelListProps) => {
         {loading && <Loading text="Loading..." />}
         <ul>
           {channels.map(({ name, id }: ChannelInfo) => (
-            <li
-              key={`channel-item-${name}`}
-              className="text-gray-300 py-2 px-1 rounded-md uppercase text-md font-bold mb-1 flex items-center hover:bg-zinc-800 cursor-pointer"
+            <Transition
+              key={`channel-item-${id}`}
+              show
+              appear
+              enter="transition-opacity duration-500  "
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              as="li"
               onClick={() => joinChannel(id)}
+              className="text-gray-300 py-2 px-1 rounded-md uppercase text-md font-bold mb-1 flex items-center hover:bg-zinc-800 cursor-pointer"
             >
               <img
                 className="w-10 h-10 md:w-8 md:h-8 rounded-md mr-4"
                 src={`https://ui-avatars.com/api/?name=${name}`}
               />
               <span className="text-sm">{name}</span>
-            </li>
+            </Transition>
           ))}
         </ul>
       </div>

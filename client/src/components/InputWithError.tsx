@@ -1,3 +1,5 @@
+import { Transition } from '@headlessui/react';
+
 type InputWithErrorProps = {
   label: string;
   hasError: boolean;
@@ -29,7 +31,17 @@ const InputWithError = ({
       />
     )}
     {hasError && (
-      <div className="mt-1 text-red-400 text-sm font-thin">{errorMessage}</div>
+      <Transition
+        show
+        appear
+        enter="transition-opacity duration-300"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        className="mt-1 text-red-400 text-sm font-thin"
+        as="div"
+      >
+        {errorMessage}
+      </Transition>
     )}
   </div>
 );

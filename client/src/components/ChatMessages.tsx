@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { Transition } from '@headlessui/react';
 import { useAppSelector } from '@hooks/useAppSelector';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import { Message } from '@models/message.models';
@@ -64,7 +65,16 @@ const ChatMessages = ({ chatConnection }: ChatMessagesProps) => {
         >
           {messages.map((message: Message, index) => {
             return (
-              <li key={`Message-Item-${index}`} className="flex mb-4">
+              <Transition
+                show
+                key={`Message-Item-${message.id}`}
+                appear
+                enter="transition-opacity duration-700"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                as="li"
+                className="flex mb-4"
+              >
                 <img
                   className="w-8 h-8 mr-3 rounded-md"
                   src={`https://ui-avatars.com/api/?name=${message.user.name}`}
@@ -80,7 +90,7 @@ const ChatMessages = ({ chatConnection }: ChatMessagesProps) => {
                   </div>
                   <div>{message.text}</div>
                 </div>
-              </li>
+              </Transition>
             );
           })}
         </ul>
