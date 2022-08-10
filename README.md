@@ -6,7 +6,7 @@
 
 <div align="center">
   <h3>
-    <a href="https://chat-group-ib17ru4b9-jmauricio22.vercel.app/" target="_blank">
+    <a href="chat-group-jmauricio22.vercel.app" target="_blank">
       Demo
     </a>
     <span> | </span>
