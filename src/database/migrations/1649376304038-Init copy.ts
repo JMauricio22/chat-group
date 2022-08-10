@@ -22,6 +22,9 @@ export class Init1649376304038 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "message" ADD CONSTRAINT "FK_f6d0a3bccef803efd6d5102655c" FOREIGN KEY ("channel_id") REFERENCES "channel"("id") ON DELETE CASCADE ON UPDATE CASCADE`,
     );
+    await queryRunner.query(
+      `INSERT INTO channel(name, description) VALUES ('welcome', 'Welcome channel.')`,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
