@@ -24,8 +24,9 @@
   - [Built With](#built-with)
 - [Features](#features)
 - [How to use](#how-to-use)
+- [User](#user)
 - [Contact](#contact)
-- [Acknowledgements](#acknowledgements)
+
 
 <!-- OVERVIEW -->
 
@@ -89,6 +90,11 @@ $ cd client && npm install
 # Run the app
 $ npm run dev
 
+```
+## User
+```bash
+user: example.user@gmail.com
+password: password
 ```
 
 ## Contact
