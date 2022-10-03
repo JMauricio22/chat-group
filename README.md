@@ -93,7 +93,7 @@ $ npm run dev
 ```
 ## User
 ```bash
-user: example.user@gmail.com
+user: example@gmail.com
 password: password
 ```
 
